@@ -22,6 +22,10 @@ def do_scan(targets, options):
 
 # print scan results from a nmap report
 def print_scan(nmap_report):
+    print(key, "has been run")
+    f.write("--------------------------------------------------------------------------" +"\n")
+    f.write(str(key) + "\n")
+    f.write("--------------------------------------------------------------------------" +"\n")
     print("Starting Nmap {0} ( http://nmap.org ) at {1}".format(
         nmap_report.version,
         nmap_report.started))
@@ -34,8 +38,6 @@ def print_scan(nmap_report):
         print("Nmap scan report for {0} ({1})".format(
             tmp_host,
             host.address))
-        print(Type)
-        f.write(str(Type) + "\n")
         print("Host is {0}.".format(host.status))
         f.write("Host is {0}.".format(host.status) + "\n")
         print("  PORT     STATE         SERVICE")
@@ -54,15 +56,23 @@ def print_scan(nmap_report):
     print(nmap_report.summary)
 if __name__ == "__main__":
         scantarget = input('what ip do you want to scan: ')
+        portz = input('what ports do you want to scan: ')
         f = open('%s.txt' % scantarget,'w')
-        #just add scan variables here like "-sF" or "-sS"
-        scantypes = ['-sF', '-sW']
-        for line in scantypes:
-                Type = line.split(",")
-                report = do_scan(scantarget, 'Type')
+        #just add scan variables here like "'FIN':'-sF'" or "-sS"
+        scantypes = {'FIN':'-sF','WINDOW':'-sW','SYN':'-sS'}
+        valuez = scantypes.values()
+        keyz = scantypes.keys()
+        for key, value in scantypes.items():
+                command = ( scantarget, value,'-p'+ portz, '--open')
+                commandz = ''.join(str(command))
+                command1 = commandz.replace(",", "")
+                command2 = command1.replace("'", "")
+                command3 = command2.replace("(", "")
+                command4 = command3.replace(")", "")
+                command5 = command4.strip()
+                report = do_scan(value,command5)
                 if report:
-                        print_scan(report)
+                        print_scan(report) 
                 else:
                         print("No results returned")
 f.close()
-
