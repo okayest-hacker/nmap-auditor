@@ -55,8 +55,8 @@ def print_scan(nmap_report):
             f.write(pserv + "\n")
     print(nmap_report.summary)
 if __name__ == "__main__":
-        scantarget = input('what ip do you want to scan: ')
-        portz = input('what ports do you want to scan: ')
+        scantarget = input('what ip address do you want to scan: ')
+        portz = input('what ports do you want to scan(example:1-100, 500): ')
         f = open('%s.txt' % scantarget,'w')
         #just add scan variables here like "'FIN':'-sF'" or "-sS"
         scantypes = {'FIN':'-sF','WINDOW':'-sW','SYN':'-sS'}
