@@ -3,11 +3,9 @@
 #must pip3 install python-libnmap
 import re
 import os, sys
-import colorama
-from colorama import Fore
+from colorama import Fore, Back, Style, init
 from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser, NmapParserException
-
 
 def do_scan(targets, options):
     parsed = None
@@ -26,7 +24,7 @@ def do_scan(targets, options):
 # print scan results from a nmap report
 def print_scan(nmap_report):
     print("----------------------------------------------------------")
-    print(key, '-', command2)
+    print(Fore.GREEN + key, command2 + Fore.RESET)
     f.write("--------------------------------------------------------------------------" +"\n")
     f.write(str(key) + "\n")
     f.write("--------------------------------------------------------------------------" +"\n")
@@ -36,11 +34,11 @@ def print_scan(nmap_report):
         else:
             tmp_host = host.address
         print("----------------------------------------------------------")
-        f.write("----------------------------------------------------------" + "\n")
+        f.write("------------------------------------------------------" + "\n")
         print("  PORT     STATE         SERVICE")
         f.write("  PORT     STATE         SERVICE" + "\n")
-        print("----------------------------------------------------------")
-        f.write("----------------------------------------------------------" + "\n")
+        print("-----------------------------------------------------------")
+        f.write("-----------------------------------------------------------" + "\n")
 
         for serv in host.services:
             pserv = "{0:>5s}/{1:3s}  {2:12s}  {3}".format(
