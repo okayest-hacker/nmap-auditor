@@ -1,9 +1,13 @@
 #!/usr/bin/python -tt
 # -*- coding: utf-8 -*-
 #must pip3 install python-libnmap
+import re
+import os, sys
+import colorama
+from colorama import Fore
 from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser, NmapParserException
-import re
+
 
 def do_scan(targets, options):
     parsed = None
@@ -21,6 +25,7 @@ def do_scan(targets, options):
 
 # print scan results from a nmap report
 def print_scan(nmap_report):
+    print("----------------------------------------------------------")
     print(key, '-', command2)
     f.write("--------------------------------------------------------------------------" +"\n")
     f.write(str(key) + "\n")
@@ -31,11 +36,11 @@ def print_scan(nmap_report):
         else:
             tmp_host = host.address
         print("----------------------------------------------------------")
-        f.write("------------------------------------------------------" + "\n")
+        f.write("----------------------------------------------------------" + "\n")
         print("  PORT     STATE         SERVICE")
         f.write("  PORT     STATE         SERVICE" + "\n")
-        print("-----------------------------------------------------------")
-        f.write("-----------------------------------------------------------" + "\n")
+        print("----------------------------------------------------------")
+        f.write("----------------------------------------------------------" + "\n")
 
         for serv in host.services:
             pserv = "{0:>5s}/{1:3s}  {2:12s}  {3}".format(
@@ -49,7 +54,7 @@ def print_scan(nmap_report):
             f.write(pserv + "\n")
 if __name__ == "__main__":
     if not os.geteuid()==0:
-        sys.exit('This script must be run as root!')
+        sys.exit(Fore.RED + 'This script must be run as root!')
     scantarget = input('what ip address do you want to scan(use the -6 option before an ivp6 address): ')
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
     f = open('%s.txt' % scantarget,'w')
