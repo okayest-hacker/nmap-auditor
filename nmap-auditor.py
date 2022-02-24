@@ -48,23 +48,25 @@ def print_scan(nmap_report):
             print(pserv)
             f.write(pserv + "\n")
 if __name__ == "__main__":
-        scantarget = input('what ip address do you want to scan(use the -6 option before an ivp6 address): ')
-        portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
-        f = open('%s.txt' % scantarget,'w')
-        #just add scan variables here like 'MAIMON':'-sM','PROTOCOL':'-sO'
-        scantypes = {'MAIMON':'-sM','PROTOCOL':'-sO'}
-        valuez = scantypes.values()
-        keyz = scantypes.keys()
-        for key, value in scantypes.items():
-            if value == '-sO':
-                portz = '1-255'
-            command = (scantarget,value,'-p'+ portz)
-            commandz = ''.join(str(command))
-            command1 = re.sub(r"[^a-zA-Z0-9-. ]", "", commandz)
-            command2 = str(command1)
-            report = do_scan(" ", command2)
-            if report:
-                print_scan(report) 
-            else:
-                print("No results returned")
-f.close()
+    if not os.geteuid()==0:
+        sys.exit('This script must be run as root!')
+    scantarget = input('what ip address do you want to scan(use the -6 option before an ivp6 address): ')
+    portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
+    f = open('%s.txt' % scantarget,'w')
+    #just add scan variables here like 'MAIMON':'-sM','PROTOCOL':'-sO'
+    scantypes = {'MAIMON':'-sM','PROTOCOL':'-sO'}
+    valuez = scantypes.values()
+    keyz = scantypes.keys()
+    for key, value in scantypes.items():
+        if value == '-sO':
+            portz = '1-255'
+        command = (scantarget,value,'-p'+ portz)
+        commandz = ''.join(str(command))
+        command1 = re.sub(r"[^a-zA-Z0-9-. ]", "", commandz)
+        command2 = str(command1)
+        report = do_scan(" ", command2)
+        if report:
+            print_scan(report) 
+        else:
+            print("No results returned")
+            f.close()
