@@ -70,7 +70,7 @@ if __name__ == "__main__":
             portz = '1-255'
         command = (scantarget,test1,x,'-p'+ portz)
         commandz = ''.join(str(command))
-        command1 = re.sub(r"[^a-zA-Z0-9-. ]", "", commandz)
+        command1 = re.sub(r"[^a-zA-Z0-9-. :]", "", commandz)
         command2 = str(command1)
         report = do_scan(" ", command2)
         if report:
