@@ -60,16 +60,21 @@ if __name__ == "__main__":
         sys.exit(Fore.RED + 'This script must be run as root!')
     IPv4 = "IPv4"
     IPv6 = "Ipv6"
+    yes = "yes"
+    no = "no"
     test1 = questionary.select("do you want to scan IPv4 or IPV6", choices=[IPv4, IPv6], ).ask()
     if test1 == IPv6:
         test1 = '-6'
     elif test1 == IPv4:
         test1 = ""
     scantarget = input('Please enter hosts to scan separated by a space: ')
-    scantypez = questionary.checkbox('Select scan type or types;',
-                                     choices=['-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO']).ask()
-    print(scantypez)
+    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO']).ask()
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
+    test2 = questionary.select("do you want to scan for only open ports", choices=[yes, no], ).ask()
+    if test2 == yes:
+        test2 = '--open'
+    elif test2 == no:
+        test2 = ""
     active_hosts = scantarget.split(' ')
 
     for i in active_hosts:
@@ -78,7 +83,7 @@ if __name__ == "__main__":
         for x in scantypez:
             if x == '-sO':
                 portz = '1-255'
-            options = (test1+" "+x+" "+"-p"+" "+ portz)
+            options = (test1+" "+x+" "+"-p"+" "+portz+" "+test2)
             report = do_scan(target, options)
             if report:
                 print_scan(report)
