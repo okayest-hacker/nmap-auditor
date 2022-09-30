@@ -8,7 +8,7 @@ from libnmap.parser import NmapParser, NmapParserException
 
 def do_scan(targets, options):
     parsed = None
-    nmproc = NmapProcess(targets, options)
+    nmproc = NmapProcess(targets,options)
     rc = nmproc.run()
     if rc != 0:
         print("nmap scan failed: {0}".format(nmproc.stderr))
@@ -22,10 +22,11 @@ def do_scan(targets, options):
 
 # print scan results from a nmap report
 def print_scan(nmap_report):
+    k=' '
     print("----------------------------------------------------------")
-    print(Fore.GREEN, target, options + Fore.RESET)
+    print(Fore.GREEN, k*8, target, options + Fore.RESET)
     f.write("----------------------------------------------------------" + "\n")
-    f.write("{} {}\n".format(target, options))
+    f.write("        {0} {1}\n".format(target, options))
     for host in nmap_report.hosts:
         if len(host.hostnames):
             tmp_host = host.hostnames.pop()
