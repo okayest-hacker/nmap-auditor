@@ -1,12 +1,11 @@
 #!/usr/bin/python -tt
-# -*- coding: utf-8 -*-
-#must pip3 install python-libnmap
 import re
 import os, sys
 import questionary
 from colorama import Fore, Back, Style, init
 from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser, NmapParserException
+
 
 def do_scan(targets, options):
     parsed = None
@@ -60,21 +59,26 @@ if __name__ == "__main__":
         test1 = '-6'
     elif test1 == IPv4:
         test1 = ""
-    scantarget = input('Please enter an ip address: ')
+    scantarget = input('Please enter hosts to scan separated by a space: ')
     scantypez = questionary.checkbox('Select scan type or types;', choices=['-sS','-sT','-sF','-sX','-sU','-sW','-sM','-sO']).ask()
     print(scantypez)
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
-    f = open('%s.txt' % scantarget,'w')
-    for x in scantypez:
-        if x == '-sO':
-            portz = '1-255'
-        command = (scantarget,test1,x,'-p'+ portz)
-        commandz = ''.join(str(command))
-        command1 = re.sub(r"[^a-zA-Z0-9-. :]", "", commandz)
-        command2 = str(command1)
-        report = do_scan(" ", command2)
-        if report:
-            print_scan(report) 
-        else:
-            print("No results returned")
-            f.close()
+    active_hosts = scantarget.split(' ')
+    #f = open('%s.txt' % active_hosts,'w')
+    # active_hosts = scantarget.split(' ')
+    
+    for i in active_hosts:
+        for x in scantypez:
+            if x == '-sO':
+                portz = '1-255'
+            f = open('%s.txt' % i,'a')
+            command = (i,test1,x,'-p'+ portz)
+            commandz = ''.join(str(command))
+            command1 = re.sub(r"[^a-zA-Z0-9-. :]", "", commandz)
+            command2 = str(command1)
+            report = do_scan(" ", command2)
+            if report:
+                print_scan(report) 
+            else:
+                print("No results returned")
+                f.close()
