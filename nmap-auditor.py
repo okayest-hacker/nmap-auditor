@@ -1,3 +1,6 @@
+
+import csv
+import pathlib
 import ctypes
 import os, sys
 import questionary
@@ -22,6 +25,11 @@ def do_scan(targets, options):
 
 # print scan results from a nmap report
 def print_scan(nmap_report):
+    write = csv.writer(z)
+    fields = ['Port','State','service']
+    headerz = [target, options]
+    write.writerow(headerz)
+    write.writerow(fields)
     k=' '
     print("----------------------------------------------------------")
     print(Fore.GREEN, k*8, target, options + Fore.RESET)
@@ -34,8 +42,8 @@ def print_scan(nmap_report):
             tmp_host = host.address
         print("----------------------------------------------------------")
         f.write("----------------------------------------------------------" + "\n")
-        print("  PORT     STATE         SERVICE")
-        f.write("  PORT     STATE         SERVICE" + "\n")
+        print("    PORT     STATE        SERVICE")
+        f.write("    PORT     STATE        SERVICE" + "\n")
         print("----------------------------------------------------------")
         f.write("----------------------------------------------------------" + "\n")
         for serv in host.services:
@@ -44,6 +52,10 @@ def print_scan(nmap_report):
                 serv.protocol,
                 serv.state,
                 serv.service)
+            pserved = pserv.split(' ')
+            pserved2 = new_list = [elem for elem in pserved if elem.strip()]
+            rows = pserved2
+            write.writerows([rows])
             if len(serv.banner):
                 pserv += " ({0})".format(serv.banner)
             print(pserv)
@@ -57,12 +69,14 @@ def isAdmin():
     return is_admin
 
 if __name__ == "__main__":
+    input(Fore.RED + 'This script removes all .txt and .cvs in the working directory. if you want to keep old scans move them and re run script')
     if not isAdmin():
         sys.exit(Fore.RED + 'This script must be run as root!')
     IPv4 = "IPv4"
     IPv6 = "Ipv6"
     yes = "yes"
     no = "no"
+    print(Fore.RED + 'This script must be run as root!')
     test1 = questionary.select("do you want to scan IPv4 or IPV6", choices=[IPv4, IPv6], ).ask()
     if test1 == IPv6:
         test1 = '-6'
@@ -80,7 +94,17 @@ if __name__ == "__main__":
 
     for i in active_hosts:
         target = i
+        dir_name = os.path.dirname(os.path.realpath(__file__))
+        test = os.listdir(dir_name)
+
+        for item in test:
+            if item.endswith(".txt"):
+                os.remove(os.path.join(dir_name, item))
+            elif item.endswith(".csv"):
+                os.remove(os.path.join(dir_name, item))
+
         f = open('%s.txt' % target, 'w')
+        z = open('%s.csv' % target, 'w',newline='')
         for x in scantypez:
             if x == '-sO':
                 portz = '1-255'
