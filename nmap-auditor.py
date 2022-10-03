@@ -69,9 +69,18 @@ def isAdmin():
     return is_admin
 
 if __name__ == "__main__":
+
     input(Fore.RED + 'This script removes all .txt and .cvs in the working directory. if you want to keep old scans move them and re run script')
     if not isAdmin():
         sys.exit(Fore.RED + 'This script must be run as root!')
+    dir_name = os.path.dirname(os.path.realpath(__file__))
+    test = os.listdir(dir_name)
+
+    for item in test:
+        if item.endswith(".txt"):
+            os.remove(os.path.join(dir_name, item))
+        elif item.endswith(".csv"):
+            os.remove(os.path.join(dir_name, item))
     IPv4 = "IPv4"
     IPv6 = "Ipv6"
     yes = "yes"
@@ -94,15 +103,6 @@ if __name__ == "__main__":
 
     for i in active_hosts:
         target = i
-        dir_name = os.path.dirname(os.path.realpath(__file__))
-        test = os.listdir(dir_name)
-
-        for item in test:
-            if item.endswith(".txt"):
-                os.remove(os.path.join(dir_name, item))
-            elif item.endswith(".csv"):
-                os.remove(os.path.join(dir_name, item))
-
         f = open('%s.txt' % target, 'w')
         z = open('%s.csv' % target, 'w',newline='')
         for x in scantypez:
