@@ -92,7 +92,7 @@ if __name__ == "__main__":
     elif test1 == IPv4:
         test1 = ""
     scantarget = input('Please enter hosts to scan separated by a space: ')
-    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO']).ask()
+    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO']).ask()
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
     test2 = questionary.select("do you want to scan for only open ports", choices=[yes, no], ).ask()
     if test2 == yes:
