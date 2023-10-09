@@ -1,5 +1,6 @@
 
 import csv
+import shutil
 import pathlib
 import ctypes
 import os, sys
@@ -20,7 +21,6 @@ def looper(hosts, test1, scantypez, portz, test2):
                 print_scan(report, hosts, options)
             else:
                 print("No results returned")
-                f.close()
 
 def do_scan(hosts, options):
     parsed = None
@@ -37,8 +37,16 @@ def do_scan(hosts, options):
 
 # print scan results from a nmap report
 def print_scan(nmap_report, hosts, options):
-    f = open('%s.txt' % hosts, 'w')
-    z = open('%s.csv' % hosts, 'w',newline='')
+    if os.path.exists(hosts):
+        # Delete the directory and its contents
+        shutil.rmtree(hosts)
+    
+    # Create the directory
+    os.makedirs(hosts)
+    file_name = os.path.join(hosts, f"{hosts}.txt")
+    file2_name = os.path.join(hosts, f"{hosts}.csv")
+    f = open(file_name, 'w')
+    z = open(file2_name, 'w',newline='')
     write = csv.writer(z)
     fields = ['Port','State','service']
     headerz = [hosts, options]
@@ -87,14 +95,7 @@ if __name__ == "__main__":
     input(Fore.RED + 'This script removes all .txt and .cvs in the working directory. if you want to keep old scans move them and re run script')
     if not isAdmin():
         sys.exit(Fore.RED + 'This script must be run as root!')
-    dir_name = os.path.dirname(os.path.realpath(__file__))
-    test = os.listdir(dir_name)
 
-    for item in test:
-        if item.endswith(".txt"):
-            os.remove(os.path.join(dir_name, item))
-        elif item.endswith(".csv"):
-            os.remove(os.path.join(dir_name, item))
     IPv4 = "IPv4"
     IPv6 = "Ipv6"
     yes = "yes"
