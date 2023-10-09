@@ -39,7 +39,7 @@ def do_scan(hosts, options):
 def print_scan(nmap_report, hosts, options):
     if os.path.exists(hosts):
         # Delete the directory and its contents
-        shutil.rmtree(hosts)
+       shutil.rmtree(hosts)
     
     # Create the directory
     os.makedirs(hosts)
