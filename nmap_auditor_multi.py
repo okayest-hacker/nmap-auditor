@@ -15,7 +15,7 @@ def looper(hosts, test1, scantypez, portz, test2):
         for x in scantypez:
             if x == '-sO':
                 portz = '1-255'
-            options = (test1+" "+x+" "+"-p"+" "+portz+" "+test2+" "+"-oG "+"%s.gnmap" % hosts)
+            options = (test1+" "+x+" "+"-PN"+" "+"-p"+" "+portz+" "+test2+" "+"-oG "+"%s.gnmap" % hosts)
             report = do_scan(hosts, options)
             if report:
                 print_scan(report, hosts, options)
@@ -91,8 +91,7 @@ def isAdmin():
     return is_admin
 
 if __name__ == "__main__":
-
-    input(Fore.RED + 'This script removes all .txt and .cvs in the working directory. if you want to keep old scans move them and re run script')
+        
     if not isAdmin():
         sys.exit(Fore.RED + 'This script must be run as root!')
 
@@ -106,17 +105,24 @@ if __name__ == "__main__":
         test1 = '-6'
     elif test1 == IPv4:
         test1 = ""
-    scantarget = input('Please enter hosts to scan separated by a space: ')
+    choice = input('Are you using a Target.txt or Manually entering targets(y or n): ')
+    if choice == 'y':
+        file_path = input("Enter the path to the text file containing targets: ")
+        with open(file_path, 'r') as file:
+            targets = file.read().splitlines()
+            print(targets)
+    elif choice == 'n':
+        scantarget = input('Please enter hosts to scan separated by a space: ')
+        targets = scantarget.split(' ')
+    else:
+        print("Invalid choice. Please choose y or n.")
+        sys.exit()
     scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO','-A']).ask()
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
     test2 = questionary.select("do you want to scan for only open ports", choices=[yes, no], ).ask()
-    if test2 == yes:
-        test2 = '--open'
-    elif test2 == no:
-        test2 = ""
-    active_hosts = scantarget.split(' ')
+    active_hosts = targets
     hosts = active_hosts # Add the IP addresses you want to scan
-    num_processes = 4  # Number of parallel processes
+    num_processes = 8  # Number of parallel processes
     partial_looper = partial(looper, test1=test1, scantypez=scantypez, portz=portz, test2=test2)
     pool = multiprocessing.Pool(processes=num_processes)
     pool.map(partial_looper, hosts)
