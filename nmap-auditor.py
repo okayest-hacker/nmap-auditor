@@ -85,7 +85,6 @@ if __name__ == "__main__":
     IPv6 = "Ipv6"
     yes = "yes"
     no = "no"
-    print(Fore.RED + 'This script must be run as root!')
     test1 = questionary.select("do you want to scan IPv4 or IPV6", choices=[IPv4, IPv6], ).ask()
     if test1 == IPv6:
         test1 = '-6'
@@ -107,7 +106,7 @@ if __name__ == "__main__":
         z = open('%s.csv' % target, 'w',newline='')
         for x in scantypez:
             if x == '-sO':
-                portz = '1-255'
+                portz = '1-254'
             options = (test1+" "+x+" "+"-p"+" "+portz+" "+test2)
             report = do_scan(target, options)
             if report:
