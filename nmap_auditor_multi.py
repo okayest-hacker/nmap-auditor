@@ -14,8 +14,8 @@ from functools import partial
 def looper(hosts, test1, scantypez, portz, test2):
         for x in scantypez:
             if x == '-sO':
-                portz = '1-255'
-            options = (test1+" "+x+" "+"-PN"+" "+"-p"+" "+portz+" "+test2+" "+"-oG "+"%s.gnmap" % hosts)
+                portz = '1-254'
+            options = (test1+" "+x+" "+"-PN"+" "+"-n"+" "+"-p"+" "+portz+" "+test2+" "+"-oG "+"%s.gnmap" % hosts)
             report = do_scan(hosts, options)
             if report:
                 print_scan(report, hosts, options)
