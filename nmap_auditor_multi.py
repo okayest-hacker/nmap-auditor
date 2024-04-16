@@ -99,7 +99,6 @@ if __name__ == "__main__":
     IPv6 = "Ipv6"
     yes = "yes"
     no = "no"
-    print(Fore.RED + 'This script must be run as root!')
     test1 = questionary.select("do you want to scan IPv4 or IPV6", choices=[IPv4, IPv6], ).ask()
     if test1 == IPv6:
         test1 = '-6'
