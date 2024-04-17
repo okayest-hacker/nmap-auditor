@@ -110,7 +110,7 @@ if __name__ == "__main__":
                 portz = '1-254'
             else:
                 portz = staticport
-            options = (test1+" "+x+" "+"-p"+" "+portz+" "+test2)
+            options = (test1+" "+test2+" "+"-p"+portz+" "+x)
             report = do_scan(target, options)
             if report:
                 print_scan(report)
