@@ -106,13 +106,13 @@ if __name__ == "__main__":
         test1 = '-6'
     elif test1 == IPv4:
         test1 = ""
-    choice = input('Are you using a Target.txt or Manually entering targets(y or n): ')
-    if choice == 'y':
+    choice = input('Are you using a Target.txt or Manually entering targets(txt or man): ')
+    if choice == 'txt':
         file_path = input("Enter the path to the text file containing targets: ")
         with open(file_path, 'r') as file:
             targets = file.read().splitlines()
             print(targets)
-    elif choice == 'n':
+    elif choice == 'man':
         scantarget = input('Please enter hosts to scan separated by a space: ')
         targets = scantarget.split(' ')
     else:
