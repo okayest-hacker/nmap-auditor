@@ -15,8 +15,6 @@ def looper(hosts, test1, scantypez, portz, test2):
         for x in scantypez:
             if x == '-sO':
                 portz = '1-254'
-            else:
-                portz = staticport
             options = (test1+" "+test2+" "+x+" "+"-PN"+" "+"-n"+" "+"-p"+" "+portz+" "+"-oG "+"%s.gnmap" % hosts)
             report = do_scan(hosts, options)
             if report:
@@ -118,10 +116,14 @@ if __name__ == "__main__":
     else:
         print("Invalid choice. Please choose y or n.")
         sys.exit()
-    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO','-A']).ask()
+    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO',]).ask()
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
     staticport = portz
     test2 = questionary.select("do you want to scan for only open ports", choices=[yes, no], ).ask()
+    if test2 == yes:
+        test2 = '--open'
+    elif test2 == no:
+        test2 = ""
     active_hosts = targets
     hosts = active_hosts # Add the IP addresses you want to scan
     num_processes = 8  # Number of parallel processes
