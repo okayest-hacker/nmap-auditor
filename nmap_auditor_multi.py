@@ -106,7 +106,7 @@ if __name__ == "__main__":
         test1 = ""
     choice = input('Are you using a Target.txt or Manually entering targets(txt or man): ')
     if choice == 'txt':
-        file_path = input("Enter the path to the text file containing targets: ")
+        file_path = input("Enter the full path and file name to the text file containing targets (example:/root/test/file.txt): ")
         with open(file_path, 'r') as file:
             targets = file.read().splitlines()
             print(targets)
