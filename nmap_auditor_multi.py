@@ -116,7 +116,7 @@ if __name__ == "__main__":
     else:
         print("Invalid choice. Please choose y or n.")
         sys.exit()
-    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sO',]).ask()
+    scantypez = questionary.checkbox('Select scan type or types;', choices=['-sA','-sS', '-sT', '-sF', '-sX', '-sU', '-sW', '-sM', '-sI', '-sO',]).ask()
     portz = input('what ports do you want to scan(example:1-100, 500 or - for all ports): ')
     staticport = portz
     test2 = questionary.select("do you want to scan for only open ports", choices=[yes, no], ).ask()
