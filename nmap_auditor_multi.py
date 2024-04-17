@@ -17,7 +17,7 @@ def looper(hosts, test1, scantypez, portz, test2):
                 portz = '1-254'
             else:
                 portz = staticport
-            options = (test1+" "+x+" "+"-PN"+" "+"-n"+" "+"-p"+" "+portz+" "+test2+" "+"-oG "+"%s.gnmap" % hosts)
+            options = (test1+" "+test2+" "+x+" "+"-PN"+" "+"-n"+" "+"-p"+" "+portz+" "+"-oG "+"%s.gnmap" % hosts)
             report = do_scan(hosts, options)
             if report:
                 print_scan(report, hosts, options)
